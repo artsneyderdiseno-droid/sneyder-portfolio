@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Tarjeta Art Sneyder</title>
+<!--
+  Tarjeta de presentación Art Sneyder — 9 x 5,4 cm horizontal, tiro y retiro.
+  Cada página mide 9,4 x 5,8 cm: incluye 2 mm de sangrado por lado.
+  Margen de seguridad: 4 mm dentro del corte.
+
+  Vistas (parámetro ?ver= en la URL):
+    (sin parámetro)  -> 2 páginas para imprenta (tiro + retiro, con sangrado)
+    ?ver=marcas      -> igual, pero con marcas de corte (página 11 x 7,4 cm)
+    ?ver=tiro / ?ver=retiro -> una sola cara, para exportar PNG
+    ?ver=mock        -> presentación de las dos caras ya cortadas
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&display=block" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style id="page-size">@page { size: 94mm 58mm; margin: 0; }</style>
+<style>
+  :root {
+    --naranja: #fd5f00;
+    --naranja-claro: #ff8a2b;
+    --naranja-osc: #c2410c;
+    --negro: #050505;
+    --sangrado: 2mm;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #fff; }
+  body { font-family: Inter, Arial, sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  /* Página = tarjeta + sangrado */
+  .page { position: relative; width: 94mm; height: 58mm; overflow: hidden; page-break-after: always; break-after: page; }
+  .page:last-child { page-break-after: auto; break-after: auto; }
+  /* Caja de corte (90 x 54 mm): todo se posiciona respecto a ella */
+  .trim { position: absolute; left: var(--sangrado); top: var(--sangrado); width: 90mm; height: 54mm; }
+
+  /* Logo partido en dos máscaras para poder colorear cada mitad */
+  .logo { position: absolute; aspect-ratio: 2291 / 1393; }
+  .logo i { position: absolute; inset: 0; -webkit-mask-size: 100% 100%; mask-size: 100% 100%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
+  .logo .izq { -webkit-mask-image: url(assets/logo-izq.png); mask-image: url(assets/logo-izq.png); }
+  .logo .der { -webkit-mask-image: url(assets/logo-der.png); mask-image: url(assets/logo-der.png); }
+
+  /* ================= TIRO ================= */
+  .tiro {
+    background:
+      radial-gradient(ellipse 46mm 30mm at 47mm 22mm, rgba(253,95,0,.42), rgba(253,95,0,.10) 55%, transparent 75%),
+      radial-gradient(ellipse 80mm 50mm at 47mm 70mm, rgba(253,95,0,.16), transparent 70%),
+      linear-gradient(180deg, #0b0b0b, var(--negro) 60%, #000);
+  }
+  .tiro .anillos { position: absolute; left: 0; top: 0; width: 94mm; height: 58mm; }
+  .tiro .logo { width: 37mm; left: 26.5mm; top: 5.6mm; filter: drop-shadow(0 0 2.2mm rgba(253,95,0,.55)); }
+  .tiro .logo .izq { background: linear-gradient(160deg, #ffb066 0%, var(--naranja-claro) 22%, var(--naranja) 55%, var(--naranja-osc) 100%); }
+  .tiro .logo .der { background: linear-gradient(200deg, #ffffff 0%, #f1f1f1 45%, #bdbdbd 100%); }
+
+  .marca {
+    position: absolute; left: 0; right: 0; top: 31.2mm; text-align: center;
+    font: 800 15pt/1 Poppins, sans-serif; letter-spacing: .2em; color: #fff; padding-left: .2em;
+  }
+  .marca b { font-weight: 800; color: var(--naranja); }
+  .eslogan {
+    position: absolute; left: 0; right: 0; top: 38.6mm; text-align: center;
+    font: 500 6.3pt/1 Inter, sans-serif; letter-spacing: .3em; color: #a3a3a3; text-transform: uppercase; padding-left: .3em;
+  }
+  .eslogan span { color: var(--naranja); padding: 0 .35em; }
+  .rayita { position: absolute; top: 36.2mm; left: 37mm; width: 16mm; height: .3mm; background: linear-gradient(90deg, transparent, var(--naranja), transparent); }
+
+  .esquina { position: absolute; width: 3mm; height: 3mm; border-color: var(--naranja); border-style: solid; border-width: 0; }
+  .esquina.tl { left: 4mm; top: 4mm; border-left-width: .3mm; border-top-width: .3mm; }
+  .esquina.tr { right: 4mm; top: 4mm; border-right-width: .3mm; border-top-width: .3mm; }
+  .esquina.bl { left: 4mm; bottom: 4mm; border-left-width: .3mm; border-bottom-width: .3mm; }
+  .esquina.br { right: 4mm; bottom: 4mm; border-right-width: .3mm; border-bottom-width: .3mm; }
+  .micro { position: absolute; font: 600 5.6pt/1 Inter, sans-serif; letter-spacing: .22em; color: #737373; text-transform: uppercase; }
+  .micro.bl { left: 8.4mm; bottom: 4.3mm; }
+  .micro.br { right: 8.4mm; bottom: 4.3mm; text-align: right; }
+  /* Indicador NFC: el texto termina antes del icono, que queda alineado con el margen derecho */
+  .micro.tr { right: 8.4mm; top: 3.9mm; display: flex; align-items: center; gap: .9mm; }
+  .micro.tr i { font-size: 8.4pt; color: var(--naranja); letter-spacing: 0; }
+
+  /* ================= RETIRO ================= */
+  .retiro { background: radial-gradient(ellipse 60mm 40mm at 10mm 0mm, rgba(253,95,0,.13), transparent 70%), linear-gradient(160deg, #111 0%, #070707 55%, #000 100%); }
+  .panel {
+    position: absolute; top: 0; bottom: 0; left: 62mm; right: 0;
+    clip-path: polygon(5mm 0, 100% 0, 100% 100%, 0 100%);
+    background:
+      repeating-linear-gradient(115deg, rgba(0,0,0,.07) 0 .25mm, transparent .25mm 1.6mm),
+      radial-gradient(ellipse 30mm 30mm at 70% 25%, #ff9a3c, transparent 70%),
+      linear-gradient(165deg, var(--naranja-claro), var(--naranja) 45%, var(--naranja-osc));
+  }
+  .panel-filo { position: absolute; top: 0; bottom: 0; left: 61.2mm; width: 6mm; clip-path: polygon(5mm 0, 5.35mm 0, .35mm 100%, 0 100%); background: #fff; opacity: .9; }
+
+  .nombre { position: absolute; left: 5mm; top: 5mm; font: 700 10.4pt/1.05 Poppins, sans-serif; color: #fff; letter-spacing: .01em; }
+  .cargo { position: absolute; left: 5mm; top: 10.4mm; font: 600 6.1pt/1 Inter, sans-serif; color: var(--naranja); letter-spacing: .2em; text-transform: uppercase; }
+  .linea { position: absolute; left: 5mm; top: 14.2mm; width: 50mm; height: .25mm; background: linear-gradient(90deg, var(--naranja), rgba(253,95,0,.25) 45%, transparent); }
+
+  .cel { position: absolute; left: 5mm; top: 16.6mm; display: flex; align-items: center; gap: 2.2mm; }
+  .cel .ico { width: 7.4mm; height: 7.4mm; border-radius: 50%; background: linear-gradient(150deg, var(--naranja-claro), var(--naranja-osc)); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 9pt; box-shadow: 0 0 2.5mm rgba(253,95,0,.45); }
+  .cel small { display: block; font: 600 5.6pt/1 Inter, sans-serif; letter-spacing: .24em; color: #8a8a8a; text-transform: uppercase; margin-bottom: .9mm; }
+  .cel strong { display: block; font: 700 13.2pt/1 Poppins, sans-serif; color: #fff; letter-spacing: .02em; white-space: nowrap; }
+  .cel strong em { font-style: normal; color: var(--naranja); }
+
+  .datos { position: absolute; left: 5mm; top: 27.6mm; display: grid; gap: 1.55mm; }
+  .datos div { display: flex; align-items: center; gap: 1.9mm; font: 500 7pt/1 Inter, sans-serif; color: #e5e5e5; white-space: nowrap; }
+  .datos i { width: 3.6mm; height: 3.6mm; border-radius: 50%; border: .2mm solid rgba(253,95,0,.7); display: inline-flex; align-items: center; justify-content: center; font-size: 5.6pt; color: var(--naranja); flex: none; }
+  .datos .sep { color: #525252; padding: 0 .2em; }
+
+  .servicios { position: absolute; left: 5mm; bottom: 4.2mm; font: 600 5.6pt/1 Inter, sans-serif; letter-spacing: .16em; color: #6b6b6b; text-transform: uppercase; white-space: nowrap; }
+  .servicios span { color: var(--naranja); }
+
+  .qr-caja { position: absolute; left: 66.2mm; top: 5.4mm; width: 19.4mm; height: 19.4mm; background: #fff; border-radius: 1.8mm; padding: 2.2mm; box-shadow: 0 1mm 3mm rgba(0,0,0,.35); }
+  .qr-caja img { display: block; width: 100%; height: 100%; }
+  .qr-texto { position: absolute; left: 63.6mm; width: 24.6mm; top: 26.6mm; text-align: center; color: #160700; }
+  .qr-texto b { display: block; font: 800 7.2pt/1 Poppins, sans-serif; letter-spacing: .14em; }
+  .qr-texto span { display: block; margin-top: .9mm; font: 600 5.8pt/1.15 Inter, sans-serif; }
+  .qr-texto span i { font-size: 6.6pt; }
+  .retiro .logo { width: 14mm; left: 68.9mm; top: 38.3mm; }
+  .retiro .logo .izq { background: #160700; }
+  .retiro .logo .der { background: #fff; }
+
+  /* ================= Marcas de corte ================= */
+  body.marcas .page { margin: 0; }
+  .hoja { position: relative; width: 110mm; height: 74mm; page-break-after: always; break-after: page; background: #fff; }
+  .hoja:last-child { page-break-after: auto; break-after: auto; }
+  .hoja > .page { position: absolute; left: 8mm; top: 8mm; }
+  .hoja .m { position: absolute; background: #000; }
+  .hoja .h { height: .1mm; width: 5mm; }
+  .hoja .v { width: .1mm; height: 5mm; }
+  .hoja .rot { position: absolute; left: 17mm; bottom: 2.4mm; font: 500 5pt/1 Inter, sans-serif; color: #000; }
+
+  /* ================= Vista mockup ================= */
+  body.mock { background: radial-gradient(ellipse at 50% 30%, #2a2a2a, #121212 70%); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12mm; padding: 14mm; }
+  body.mock .corte { width: 90mm; height: 54mm; overflow: hidden; position: relative; border-radius: .6mm; box-shadow: 0 4mm 10mm rgba(0,0,0,.6), 0 0 0 .1mm rgba(255,255,255,.06); }
+  body.mock .corte .page { position: absolute; left: -2mm; top: -2mm; }
+  body.mock .corte:first-child { transform: rotate(-3deg); }
+  body.mock .corte:last-child { transform: rotate(2deg) translateX(10mm); }
+  body.una { background: #000; }
+</style>
+</head>
+<body>
+
+<!-- ============ TIRO (frente) ============ -->
+<section class="page tiro" id="tiro">
+  <svg class="anillos" viewBox="0 0 94 58" aria-hidden="true">
+    <g fill="none" stroke="#fd5f00" transform="translate(47 21)">
+      <ellipse rx="25" ry="17" stroke-width=".12" opacity=".55"/>
+      <ellipse rx="32" ry="21.5" stroke-width=".12" opacity=".38" stroke-dasharray=".6 .9"/>
+      <ellipse rx="40" ry="27" stroke-width=".12" opacity=".26"/>
+      <ellipse rx="49" ry="33" stroke-width=".12" opacity=".18" stroke-dasharray="2 1.2"/>
+      <ellipse rx="59" ry="40" stroke-width=".12" opacity=".12"/>
+      <line x1="-47" y1="0" x2="-27" y2="0" stroke-width=".1" opacity=".35"/>
+      <line x1="27" y1="0" x2="47" y2="0" stroke-width=".1" opacity=".35"/>
+    </g>
+  </svg>
+  <div class="trim">
+    <div class="logo"><i class="izq"></i><i class="der"></i></div>
+    <div class="marca"><b>ART</b> SNEYDER</div>
+    <div class="rayita"></div>
+    <div class="eslogan">Branding<span>·</span>Motion<span>·</span>Web UX/UI</div>
+    <span class="esquina tl"></span><span class="esquina tr"></span>
+    <span class="esquina bl"></span><span class="esquina br"></span>
+    <span class="micro bl">Est. 2016</span>
+    <span class="micro br">Bogotá — CO</span>
+    <span class="micro tr">Acerca tu celular<i class="fa-brands fa-nfc-directional"></i></span>
+  </div>
+</section>
+
+<!-- ============ RETIRO (reverso) ============ -->
+<section class="page retiro" id="retiro">
+  <div class="panel"></div>
+  <div class="panel-filo"></div>
+  <div class="trim">
+    <div class="nombre">Sneyder Riaño Hernández</div>
+    <div class="cargo">Diseñador gráfico profesional</div>
+    <div class="linea"></div>
+
+    <div class="cel">
+      <div class="ico"><i class="fa-solid fa-mobile-screen-button"></i></div>
+      <div>
+        <small>Celular · WhatsApp</small>
+        <strong><em>+57</em> 311 811 3811</strong>
+      </div>
+    </div>
+
+    <div class="datos">
+      <div><i class="fa-solid fa-envelope"></i>bogofija@gmail.com</div>
+      <div><i class="fa-brands fa-instagram"></i>@sneyder.rh<span class="sep">|</span><i class="fa-brands fa-behance"></i>art-sneyder</div>
+      <div><i class="fa-solid fa-location-dot"></i>Bogotá, Colombia</div>
+    </div>
+
+    <div class="servicios">Diseño<span> · </span>Video<span> · </span>Foto<span> · </span>Social<span> · </span>Web</div>
+
+    <div class="qr-caja"><img src="assets/qr-web.svg" alt="QR sneyder.netlify.app"></div>
+    <div class="qr-texto"><b>ESCANÉAME</b><span><i class="fa-brands fa-nfc-directional"></i> o acerca tu celular</span></div>
+    <div class="logo"><i class="izq"></i><i class="der"></i></div>
+  </div>
+</section>
+
+<script>
+  // Cambia la vista según ?ver= (ver comentario del encabezado)
+  (function () {
+    var ver = new URLSearchParams(location.search).get('ver');
+    var caras = [].slice.call(document.querySelectorAll('.page'));
+    if (ver === 'tiro' || ver === 'retiro') {
+      document.body.classList.add('una');
+      caras.forEach(function (c) { if (c.id !== ver) c.remove(); });
+    } else if (ver === 'mock') {
+      document.body.classList.add('mock');
+      caras.forEach(function (c) { var w = document.createElement('div'); w.className = 'corte'; c.parentNode.insertBefore(w, c); w.appendChild(c); });
+    } else if (ver === 'marcas') {
+      document.body.classList.add('marcas');
+      document.getElementById('page-size').textContent = '@page { size: 110mm 74mm; margin: 0; }';
+      caras.forEach(function (c) {
+        var h = document.createElement('div'); h.className = 'hoja';
+        c.parentNode.insertBefore(h, c); h.appendChild(c);
+        // Líneas de corte a 10 mm del borde de la hoja, fuera del sangrado
+        var xs = [10, 100], ys = [10, 64];
+        xs.forEach(function (x) { ys.forEach(function (y) {
+          var top = y === 10 ? 0 : 69, left = x === 10 ? 0 : 105;
+          var v = document.createElement('i'); v.className = 'm v'; v.style.left = x + 'mm'; v.style.top = top + 'mm'; h.appendChild(v);
+          var hz = document.createElement('i'); hz.className = 'm h'; hz.style.top = y + 'mm'; hz.style.left = left + 'mm'; h.appendChild(hz);
+        }); });
+        var r = document.createElement('span'); r.className = 'rot';
+        r.textContent = 'Art Sneyder · Tarjeta 9 x 5,4 cm · ' + (c.id === 'tiro' ? 'TIRO' : 'RETIRO') + ' · sangrado 2 mm';
+        h.appendChild(r);
+      });
+    }
+  })();
+</script>
+</body>
+</html>

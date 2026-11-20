@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Sneyder Riaño Hernández · Hoja de Vida</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+  :root{
+    --bg:#0a0a0a; --panel:#121212; --panel2:#171717; --line:rgba(255,255,255,.08);
+    --o:#f97316; --o2:#ff7a1a; --o-soft:rgba(249,115,22,.12);
+    --tx:#f3f4f6; --tx2:#d1d5db; --mut:#9ca3af; --mut2:#6b7280;
+  }
+  @page{ size:A4; margin:0 }
+  *{ box-sizing:border-box; margin:0; padding:0 }
+  html,body{ background:#2a2a2a; -webkit-print-color-adjust:exact; print-color-adjust:exact }
+  body{ font-family:Inter,sans-serif; color:var(--tx2); font-size:8.3pt; line-height:1.5 }
+  a{ color:inherit; text-decoration:none }
+  .page{
+    width:210mm; height:297mm; margin:8mm auto; background:var(--bg); position:relative; overflow:hidden;
+    padding:11mm 12mm 10mm; page-break-after:always; break-after:page;
+  }
+  .page:last-child{ page-break-after:auto; break-after:auto }
+  @media print{ html,body{background:var(--bg)} .page{ margin:0 } }
+
+  /* fondo: rejilla + resplandores, como la web */
+  .page::before{ content:""; position:absolute; inset:0; pointer-events:none;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:12mm 12mm; opacity:.35;
+    -webkit-mask-image:radial-gradient(ellipse at 80% 0%,#000 0%,transparent 70%); mask-image:radial-gradient(ellipse at 80% 0%,#000 0%,transparent 70%) }
+  .glow{ position:absolute; border-radius:50%; filter:blur(30mm); pointer-events:none }
+  .z{ position:relative; z-index:2 }
+
+  .mono{ font-family:"JetBrains Mono",monospace; letter-spacing:.14em; text-transform:uppercase }
+  h1,h2,h3,h4{ font-family:Poppins,sans-serif; color:#fff }
+
+  /* barra superior */
+  .topbar{ display:flex; align-items:center; justify-content:space-between; padding-bottom:5mm; border-bottom:1px solid var(--line) }
+  .brand{ display:flex; align-items:center; gap:2.6mm }
+  .brand img{ width:11mm; height:11mm; object-fit:contain }
+  .brand b{ font-family:Poppins; font-weight:800; font-size:10.5pt; color:#fff; letter-spacing:.06em }
+  .brand span{ display:block; font-size:6pt; color:var(--mut) }
+  .topbar .meta{ font-size:6.2pt; color:var(--mut); text-align:right; line-height:1.7 }
+  .topbar .meta i{ color:var(--o) }
+  .dot{ display:inline-block; width:1.6mm; height:1.6mm; border-radius:50%; background:#22c55e; box-shadow:0 0 0 .8mm rgba(34,197,94,.2); margin-right:1.4mm; vertical-align:middle }
+
+  /* HERO */
+  .hero{ display:grid; grid-template-columns:1fr 64mm; gap:8mm; padding-top:7mm; position:relative }
+  .ghost{ position:absolute; left:-4mm; top:46mm; font-family:Poppins; font-weight:900; font-size:88pt; line-height:1;
+    color:transparent; -webkit-text-stroke:.35mm rgba(249,115,22,.16); letter-spacing:-.02em; white-space:nowrap; z-index:0 }
+  .hola{ color:var(--o); font-size:7pt; display:flex; align-items:center; gap:2mm }
+  .hola::before{ content:""; width:8mm; height:.5mm; background:var(--o) }
+  .name{ font-weight:800; font-size:44pt; line-height:.95; letter-spacing:-.025em; margin-top:2.5mm }
+  .name em{ font-style:normal; color:var(--o) }
+  .surname{ font-family:Poppins; font-weight:300; font-size:21pt; color:#e5e7eb; letter-spacing:-.01em; margin-top:1mm }
+  .alias{ font-size:7pt; color:var(--mut); margin-top:2mm }
+  .alias b{ color:var(--o) }
+  .role{ display:flex; flex-wrap:wrap; gap:1.6mm; margin-top:4mm }
+  .role span{ font-family:Poppins; font-weight:600; font-size:7.2pt; color:#fff; padding:1.1mm 3mm; border-radius:10mm;
+    border:1px solid rgba(249,115,22,.45); background:var(--o-soft) }
+  .role span.f{ background:var(--o); border-color:var(--o); color:#0a0a0a }
+  .summary{ margin-top:4.5mm; font-size:8.8pt; line-height:1.62; color:var(--tx2); max-width:118mm }
+  .summary b{ color:#fff; font-weight:600 }
+
+  .photo{ position:relative; height:78mm; border-radius:5mm; padding:.6mm;
+    background:linear-gradient(150deg,var(--o) 0%,rgba(249,115,22,.15) 40%,rgba(255,255,255,.08) 70%,var(--o) 100%) }
+  .photo .in{ width:100%; height:100%; border-radius:4.5mm; overflow:hidden; position:relative; background:#111 }
+  .photo img{ width:100%; height:100%; object-fit:cover; object-position:60% 20%; filter:grayscale(1) contrast(1.12) brightness(.95) }
+  .photo .in::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg,transparent 55%,rgba(10,10,10,.85) 100%) }
+  .photo .tag{ position:absolute; z-index:3; left:4mm; bottom:4mm; right:4mm; display:flex; justify-content:space-between; align-items:flex-end }
+  .photo .tag b{ font-family:Poppins; color:#fff; font-size:8.5pt; display:block; line-height:1.2 }
+  .photo .tag small{ font-size:6pt; color:var(--o) }
+  .photo .badge{ position:absolute; z-index:3; top:-2.5mm; right:-2.5mm; width:13mm; height:13mm; border-radius:3mm; background:var(--o);
+    display:grid; place-items:center; color:#0a0a0a; font-size:13pt; box-shadow:0 3mm 8mm rgba(249,115,22,.35) }
+  .photo .code{ position:absolute; z-index:3; left:-2.5mm; top:22mm; width:10mm; height:10mm; border-radius:2.5mm; background:#171717;
+    border:1px solid rgba(255,255,255,.12); display:grid; place-items:center; color:#fff; font-size:8.5pt }
+  .corner{ position:absolute; width:7mm; height:7mm; border-color:var(--o); border-style:solid; z-index:4 }
+
+  /* contacto */
+  .contact{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.6mm 4mm; margin-top:5mm }
+  .contact a, .contact div{ display:flex; align-items:center; gap:2mm; font-size:7.3pt; color:#e5e7eb; white-space:nowrap }
+  .contact i{ width:5.6mm; height:5.6mm; border-radius:1.6mm; display:grid; place-items:center; background:var(--panel2);
+    border:1px solid var(--line); color:var(--o); font-size:6.6pt; flex:none }
+
+  /* stats */
+  .stats{ display:grid; grid-template-columns:repeat(4,1fr); margin-top:7mm; border:1px solid var(--line); border-radius:4mm;
+    background:linear-gradient(90deg,rgba(249,115,22,.10),rgba(255,255,255,.02) 50%,rgba(249,115,22,.06)); overflow:hidden }
+  .stat{ padding:3.6mm 4mm; border-right:1px solid var(--line) }
+  .stat:last-child{ border-right:0 }
+  .stat b{ font-family:Poppins; font-weight:800; font-size:20pt; color:#fff; line-height:1 }
+  .stat b sup{ color:var(--o); font-size:12pt; vertical-align:top; margin-left:.4mm }
+  .stat span{ display:block; font-size:5.8pt; color:var(--mut); margin-top:1.3mm }
+
+  /* secciones */
+  .grid{ display:grid; grid-template-columns:1fr 60mm; gap:8mm; margin-top:6mm }
+  .sec-h{ display:flex; align-items:center; gap:2.5mm; margin-bottom:4mm }
+  .sec-h .n{ font-family:"JetBrains Mono"; font-size:6.3pt; color:var(--o); border:1px solid rgba(249,115,22,.4); border-radius:1.4mm; padding:.3mm 1.4mm }
+  .sec-h h2{ font-size:12.5pt; font-weight:700; letter-spacing:-.01em }
+  .sec-h::after{ content:""; flex:1; height:1px; background:linear-gradient(90deg,var(--line),transparent) }
+
+  /* timeline */
+  .tl{ position:relative; padding-left:6mm }
+  .tl::before{ content:""; position:absolute; left:1.3mm; top:1.5mm; bottom:2mm; width:.35mm; background:linear-gradient(var(--o),rgba(249,115,22,.05)) }
+  .job{ position:relative; margin-bottom:5mm }
+  .job:last-child{ margin-bottom:0 }
+  .job::before{ content:""; position:absolute; left:-6mm; top:1.1mm; width:3mm; height:3mm; border-radius:50%; background:var(--bg); border:.55mm solid var(--o) }
+  .job.now::before{ background:var(--o); box-shadow:0 0 0 1.1mm rgba(249,115,22,.22) }
+  .date{ font-size:6.3pt; color:var(--o) }
+  .job h3{ font-size:10pt; font-weight:700; margin-top:.8mm; line-height:1.25 }
+  .co{ font-size:7.6pt; color:var(--mut); margin-top:.4mm }
+  .co b{ color:#e5e7eb; font-weight:600 }
+  .job ul{ list-style:none; margin-top:2mm }
+  .job li{ position:relative; padding-left:3.6mm; margin-bottom:1mm; font-size:7.7pt; line-height:1.5 }
+  .job li::before{ content:""; position:absolute; left:0; top:1.9mm; width:1.5mm; height:.4mm; background:var(--o) }
+  .job li b{ color:#fff; font-weight:600 }
+  .cat{ font-family:Poppins; font-size:6.4pt; font-weight:600; color:var(--o); letter-spacing:.08em; text-transform:uppercase; margin:2.6mm 0 1.2mm }
+  .chips{ display:flex; flex-wrap:wrap; gap:1.2mm; margin-top:2mm }
+  .chips span{ font-size:6.2pt; padding:.5mm 2mm; border-radius:1.4mm; background:var(--panel2); border:1px solid var(--line); color:#e5e7eb }
+  .chips span.o{ border-color:rgba(249,115,22,.4); color:var(--o); background:var(--o-soft) }
+  .card{ background:linear-gradient(180deg,var(--panel),#0e0e0e); border:1px solid var(--line); border-radius:4mm; padding:4.5mm 4.5mm 4mm }
+
+  /* barras */
+  .bar{ margin-bottom:2.5mm }
+  .bar .t{ display:flex; justify-content:space-between; font-size:7.3pt; color:#e5e7eb; margin-bottom:1mm }
+  .bar .t b{ font-family:"JetBrains Mono"; font-weight:500; color:var(--o); font-size:6.5pt }
+  .bar .tr{ height:1.3mm; border-radius:1mm; background:#262626; overflow:hidden }
+  .bar .tr i{ display:block; height:100%; border-radius:1mm; background:linear-gradient(90deg,#c2410c,var(--o) 60%,#fdba74) }
+
+  .lang{ display:flex; align-items:center; gap:3mm }
+  .lang .ring{ width:13mm; height:13mm; border-radius:50%; flex:none; display:grid; place-items:center;
+    background:conic-gradient(var(--o) 0 var(--p), #262626 var(--p) 100%) }
+  .lang .ring b{ width:10.4mm; height:10.4mm; border-radius:50%; background:#111; display:grid; place-items:center; font-family:Poppins; color:#fff; font-size:7.5pt }
+  .lang h4{ font-size:8.3pt } .lang p{ font-size:6.8pt; color:var(--mut) }
+
+  .sb > * + *{ margin-top:5mm }
+
+  /* página 2 */
+  .edu{ position:relative; padding:3.4mm 3.6mm; border-radius:3mm; background:var(--panel); border:1px solid var(--line); margin-bottom:2.4mm }
+  .edu .date{ font-size:6pt }
+  .edu h4{ font-size:8.6pt; margin-top:.6mm; line-height:1.3 }
+  .edu p{ font-size:6.9pt; color:var(--mut); margin-top:.4mm; line-height:1.45 }
+  .edu.cur{ border-color:rgba(249,115,22,.45); background:linear-gradient(135deg,rgba(249,115,22,.12),var(--panel) 60%) }
+  .live{ position:absolute; top:3.2mm; right:3.2mm; font-size:5.4pt; color:#0a0a0a; background:var(--o); padding:.3mm 1.6mm; border-radius:1mm; font-weight:700 }
+  .cert{ display:grid; grid-template-columns:8mm 1fr; gap:2.6mm; align-items:start; padding:2.6mm 0; border-bottom:1px dashed var(--line) }
+  .cert:last-child{ border-bottom:0; padding-bottom:0 }
+  .cert .ic{ width:8mm; height:8mm; border-radius:2mm; display:grid; place-items:center; background:var(--o-soft); color:var(--o); font-size:8pt; border:1px solid rgba(249,115,22,.3) }
+  .cert h4{ font-size:8pt; line-height:1.3 } .cert p{ font-size:6.7pt; color:var(--mut); line-height:1.45; margin-top:.4mm }
+
+  .projects{ display:grid; grid-template-columns:repeat(3,1fr); gap:3mm }
+  .pj{ border-radius:3.5mm; padding:3.6mm; background:var(--panel); border:1px solid var(--line); position:relative; overflow:hidden }
+  .pj .k{ font-size:5.6pt; color:var(--o) }
+  .pj h4{ font-size:9.2pt; margin-top:.8mm; line-height:1.25 }
+  .pj p{ font-size:6.9pt; color:var(--mut); margin-top:1mm; line-height:1.45 }
+  .pj .num{ position:absolute; right:2.6mm; top:1.4mm; font-family:Poppins; font-weight:900; font-size:22pt; color:transparent; -webkit-text-stroke:.25mm rgba(255,255,255,.08) }
+  .pj.hl{ grid-column:span 2; background:radial-gradient(circle at 100% 0%,rgba(249,115,22,.28),transparent 55%),var(--panel); border-color:rgba(249,115,22,.4) }
+  .pj.hl h4{ font-size:11pt }
+  .bogo{ display:flex; flex-wrap:wrap; gap:1.2mm; margin-top:2.2mm }
+  .bogo span{ font-family:Poppins; font-weight:700; font-size:6.2pt; color:#fff; padding:.5mm 2mm; border-radius:1mm; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1) }
+  .bogo span.f{ background:var(--o); color:#0a0a0a; border-color:var(--o) }
+  .tv{ display:inline-flex; align-items:center; gap:1.4mm; margin-top:2.2mm; font-size:6.4pt; color:#fff }
+  .tv i{ color:var(--o) }
+
+  .tools{ display:grid; grid-template-columns:repeat(8,1fr); gap:1.8mm }
+  .tool{ border-radius:2mm; background:var(--panel); border:1px solid var(--line); padding:1.3mm 1.4mm; display:flex; align-items:center; gap:1.5mm }
+  .tool .lg{ width:5.6mm; height:5.6mm; flex:none; border-radius:1.4mm; display:grid; place-items:center; font-family:Poppins; font-weight:700; font-size:6pt }
+  .tool span{ display:block; font-size:5.6pt; color:var(--tx2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+
+  .cta{ margin-top:5.5mm; border-radius:5mm; padding:4.5mm 6mm; display:grid; grid-template-columns:1fr auto auto; gap:6mm; align-items:center;
+    background:radial-gradient(circle at 0% 100%,rgba(249,115,22,.35),transparent 55%),linear-gradient(135deg,#1a1a1a,#0f0f0f); border:1px solid rgba(249,115,22,.35); position:relative; overflow:hidden }
+  .cta h2{ font-size:19pt; font-weight:800; letter-spacing:-.02em; line-height:1.05 }
+  .cta h2 em{ font-style:normal; color:var(--o) }
+  .cta p{ font-size:7.4pt; color:var(--tx2); margin-top:1.6mm; max-width:85mm }
+  .cta .links{ display:grid; gap:1.5mm; font-size:7.2pt }
+  .cta .links a{ display:flex; align-items:center; gap:2mm; color:#fff }
+  .cta .links i{ color:var(--o); width:3.5mm; text-align:center }
+  .qr{ background:#fff; border-radius:2.6mm; padding:1.6mm; width:24mm; text-align:center }
+  .qr svg{ display:block; width:100% }
+  .qr small{ display:block; font-size:4.8pt; color:#0a0a0a; margin-top:.6mm; font-family:"JetBrains Mono"; letter-spacing:.05em }
+
+  /* página 3: detrás del diseño */
+  .about{ display:grid; grid-template-columns:58mm 1fr; gap:7mm; align-items:stretch }
+  .about .pic{ border-radius:4.5mm; overflow:hidden; position:relative; border:1px solid rgba(249,115,22,.4); min-height:70mm }
+  .about .pic img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:55% 40%; filter:grayscale(1) contrast(1.1) }
+  .about .pic::after{ content:""; position:absolute; inset:0; background:linear-gradient(200deg,transparent 40%,rgba(249,115,22,.45) 100%); mix-blend-mode:multiply }
+  .about .pic span{ position:absolute; z-index:2; left:3.5mm; bottom:3mm; font-size:6pt; color:#fff }
+  .quote{ font-family:Poppins; font-weight:700; font-size:15pt; line-height:1.15; color:#fff; letter-spacing:-.015em; margin:1.6mm 0 2.6mm }
+  .quote em{ font-style:normal; color:var(--o) }
+  .about p.tx{ font-size:8pt; line-height:1.58; margin-bottom:1.8mm }
+  .about p.tx b{ color:#fff; font-weight:600 }
+  .pillars{ display:grid; grid-template-columns:repeat(3,1fr); gap:2.6mm; margin-top:3mm }
+  .pillar{ padding:2.4mm 2.8mm; border-radius:3mm; background:var(--panel); border:1px solid var(--line) }
+  .pillar i{ color:var(--o); font-size:9pt }
+  .pillar h4{ font-size:7.8pt; margin-top:1.4mm; line-height:1.3 }
+  .pillar p{ font-size:6.6pt; color:var(--mut); margin-top:.6mm; line-height:1.45 }
+  .ghost3{ position:absolute; right:-6mm; top:25mm; font-family:Poppins; font-weight:900; font-size:62pt; line-height:1; color:transparent;
+    -webkit-text-stroke:.3mm rgba(249,115,22,.13); white-space:nowrap; z-index:0 }
+  .band{ margin-top:6mm; border-radius:4mm; padding:4.5mm 5mm; border:1px solid var(--line);
+    background:linear-gradient(90deg,rgba(249,115,22,.10),rgba(255,255,255,.02) 60%) }
+
+  .foot{ position:absolute; left:12mm; right:12mm; bottom:5.5mm; display:flex; justify-content:space-between; font-size:5.6pt; color:var(--mut2); z-index:3 }
+  .foot b{ color:var(--o); font-weight:500 }
+</style>
+</head>
+<body>
+
+<!-- ============ PÁGINA 1 ============ -->
+<section class="page">
+  <div class="glow" style="width:120mm;height:120mm;right:-40mm;top:-40mm;background:rgba(249,115,22,.22)"></div>
+  <div class="glow" style="width:90mm;height:90mm;left:-45mm;top:150mm;background:rgba(249,115,22,.10)"></div>
+
+  <header class="topbar z">
+    <div class="brand">
+      <img src="logo-oscuro.png" alt="Logo Art Sneyder">
+      <div><b>ART SNEYDER</b><span class="mono">Diseño · Motion · Tecnología</span></div>
+    </div>
+    <div class="meta mono">
+      <div><span class="dot"></span>Disponible para nuevos retos</div>
+      <div>Hoja de vida · 2026 · <i class="fa-solid fa-location-dot"></i> Bogotá, Colombia</div>
+    </div>
+  </header>
+
+  <div class="hero z">
+    <div class="z">
+      <div class="hola mono">Hola, soy</div>
+      <h1 class="name">Sneyder<em>.</em></h1>
+      <div class="surname">Riaño Hernández</div>
+      <div class="alias mono">Conocido como <b>Art Sneyder</b></div>
+      <div class="role">
+        <span class="f">Diseñador Gráfico</span><span>Motion Graphics</span><span>UX/UI · Front-End</span><span>Automatización · IA</span>
+      </div>
+      <p class="summary">
+        Diseñador gráfico profesional con <b>más de diez años de experiencia</b> creando soluciones visuales para marcas, empresas y campañas publicitarias.
+        Integro <b>branding, producción audiovisual, motion graphics, desarrollo web y automatización con n8n e inteligencia artificial</b>
+        para construir experiencias digitales que comunican, conectan y venden. Hoy dirijo la presencia digital de <b>Grupo PRS</b> y curso
+        formación profesional en <b>Animación Digital</b>.
+      </p>
+      <div class="contact">
+        <a href="tel:+573118113811"><i class="fa-solid fa-phone"></i>+57 311 811 3811</a>
+        <a href="mailto:bogofija@gmail.com"><i class="fa-solid fa-envelope"></i>bogofija@gmail.com</a>
+        <a href="https://sneyder.netlify.app/"><i class="fa-solid fa-globe"></i>sneyder.netlify.app</a>
+        <a href="https://www.linkedin.com/in/artsneyder"><i class="fa-brands fa-linkedin-in"></i>in/artsneyder</a>
+        <a href="https://www.behance.net/art-sneyder"><i class="fa-brands fa-behance"></i>behance.net/art-sneyder</a>
+        <a href="https://github.com/artsneyderdiseno-droid"><i class="fa-brands fa-github"></i>GitHub · Vimeo</a>
+      </div>
+    </div>
+
+    <div class="photo z">
+      <div class="in"><img src="foto.jpg" alt="Sneyder Riaño Hernández"></div>
+      <div class="badge"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+      <div class="code"><i class="fa-solid fa-code"></i></div>
+      <div class="tag">
+        <div><b>Sneyder Riaño H.</b><small class="mono">Creative · Developer</small></div>
+        <small class="mono" style="color:#e5e7eb">BOG · CO</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats z">
+    <div class="stat"><b>10<sup>+</sup></b><span class="mono">Años de experiencia</span></div>
+    <div class="stat"><b>250<sup>+</sup></b><span class="mono">Proyectos</span></div>
+    <div class="stat"><b>150<sup>+</sup></b><span class="mono">Clientes felices</span></div>
+    <div class="stat"><b>5.000<sup>+</sup></b><span class="mono">Diseños entregados</span></div>
+  </div>
+
+  <div class="grid z">
+    <div>
+      <div class="sec-h"><span class="n">01</span><h2>Trayectoria Profesional</h2></div>
+      <div class="tl">
+        <div class="job now">
+          <div class="date mono">Oct 2018 — Actualidad · 8 años</div>
+          <h3>Diseñador Gráfico · Semi-Senior / Mid-level</h3>
+          <div class="co"><b>Grupo PRS S.A.S.</b> — Centro Digital PRS &amp; Publicidad y Suministros · Bogotá · Jornada completa</div>
+          <div class="cat"><i class="fa-solid fa-gears"></i>&nbsp; Automatización y desarrollo</div>
+          <ul>
+            <li><b>n8n:</b> desarrollo de flujos corporativos avanzados e integraciones entre sistemas.</li>
+            <li>Programación y maquetación web front-end bajo estándares de UI.</li>
+            <li>Responsable de <b>dos sitios web</b> que actualizo de forma permanente: Centro Digital PRS y Publicidad y Suministros.</li>
+          </ul>
+          <div class="cat"><i class="fa-solid fa-pen-nib"></i>&nbsp; Diseño visual, editorial y multimedia</div>
+          <ul>
+            <li>Piezas publicitarias, editoriales, fotográficas y videos de alto impacto para material POP e impresión digital.</li>
+          </ul>
+          <div class="cat"><i class="fa-solid fa-chart-line"></i>&nbsp; Estrategia digital, UX y liderazgo</div>
+          <ul>
+            <li>Chatbots en <b>Facebook e Instagram</b> diseñados desde la experiencia de usuario.</li>
+            <li>Analítica de marketing y actualización constante del catálogo digital.</li>
+            <li>Seguimiento técnico al equipo de asesores comerciales para mejorar el rendimiento y <b>cerrar más ventas</b>.</li>
+          </ul>
+          <div class="chips"><span class="o">n8n</span><span>HTML5</span><span>CSS3</span><span>JavaScript</span><span>Photoshop</span><span>CorelDRAW</span><span>Illustrator</span><span>After Effects</span><span>Chatbots</span></div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="sb">
+      <div class="card">
+        <div class="sec-h" style="margin-bottom:3.4mm"><span class="n">02</span><h2>Habilidades</h2></div>
+        <div class="bar"><div class="t">CorelDRAW<b>100%</b></div><div class="tr"><i style="width:100%"></i></div></div>
+        <div class="bar"><div class="t">Adobe Photoshop<b>100%</b></div><div class="tr"><i style="width:100%"></i></div></div>
+        <div class="bar"><div class="t">Adobe After Effects<b>100%</b></div><div class="tr"><i style="width:100%"></i></div></div>
+        <div class="bar"><div class="t">Adobe Premiere Pro<b>100%</b></div><div class="tr"><i style="width:100%"></i></div></div>
+        <div class="bar"><div class="t">Adobe Illustrator<b>94%</b></div><div class="tr"><i style="width:94%"></i></div></div>
+        <div class="bar"><div class="t">Figma<b>90%</b></div><div class="tr"><i style="width:90%"></i></div></div>
+        <div class="bar"><div class="t">HTML5 · CSS3<b>90%</b></div><div class="tr"><i style="width:90%"></i></div></div>
+        <div class="bar" style="margin-bottom:0"><div class="t">JavaScript<b>85%</b></div><div class="tr"><i style="width:85%"></i></div></div>
+      </div>
+
+    </aside>
+  </div>
+
+  <div class="foot mono"><span>Sneyder Riaño Hernández · <b>Art Sneyder</b></span><span>01 / 03</span></div>
+</section>
+
+<!-- ============ PÁGINA 2 ============ -->
+<section class="page">
+  <div class="glow" style="width:110mm;height:110mm;left:-50mm;top:-40mm;background:rgba(249,115,22,.16)"></div>
+  <div class="glow" style="width:120mm;height:120mm;right:-50mm;bottom:-40mm;background:rgba(249,115,22,.20)"></div>
+
+  <header class="topbar z">
+    <div class="brand">
+      <img src="logo-oscuro.png" alt="Logo Art Sneyder">
+      <div><b>ART SNEYDER</b><span class="mono">Sneyder Riaño Hernández</span></div>
+    </div>
+    <div class="meta mono"><div>Diseñador Gráfico · Motion · UX/UI</div><div><i class="fa-solid fa-phone"></i> +57 311 811 3811</div></div>
+  </header>
+
+  <div class="grid z" style="margin-top:6mm">
+    <div>
+      <div class="sec-h"><span class="n">01</span><h2>Trayectoria <span style="color:var(--mut);font-weight:400">· continuación</span></h2></div>
+      <div class="tl">
+        <div class="job">
+          <div class="date mono">Oct 2016 — Abr 2018</div>
+          <h3>Diseñador Gráfico</h3>
+          <div class="co"><b>Aurifarma</b> — Fabricante de balines para auriculoterapia · Bogotá</div>
+          <ul>
+            <li>Diseño de <b>empaques, etiquetas y material POP</b>; piezas de comunicación interna.</li>
+            <li>Colaboré en el sitio web y produje gran parte del contenido de imagen y video para web y redes.</li>
+            <li>Reconocido como uno de los perfiles más creativos del equipo (diseño vectorial y 3D).</li>
+            <li><b>2026:</b> rediseñé desde cero su sitio web, con catálogo, lista de cotización por WhatsApp y sección de formación.</li>
+          </ul>
+        </div>
+        <div class="job">
+          <div class="date mono">Jun 2018 — Ago 2018</div>
+          <h3>Programador Auxiliar</h3>
+          <div class="co"><b>Aldeamo</b> — Soluciones SMS, email, geolocalización y USSD · Bogotá</div>
+          <ul>
+            <li>Prácticas en desarrollo: reforcé <b>PHP, Java, HTML5, CSS3</b> y bases de datos <b>MySQL avanzado</b>.</li>
+          </ul>
+        </div>
+        <div class="job">
+          <div class="date mono">May 2014 — Jun 2016</div>
+          <h3>Auxiliar de Marketing y Publicidad</h3>
+          <div class="co"><b>Grupo Éxito</b> · Bogotá</div>
+          <ul>
+            <li>Piezas gráficas y videos de alto impacto para redes sociales.</li>
+            <li>Análisis de ideas creativas y tendencias para campañas publicitarias digitales.</li>
+            <li>Actualización constante de la oferta de productos en el catálogo digital.</li>
+          </ul>
+        </div>
+        <div class="job">
+          <div class="date mono">Jul 2015 — Dic 2015</div>
+          <h3>Auxiliar de Diseño Gráfico · Práctica profesional</h3>
+          <div class="co"><b>Diafragma Ingeniería S.A.S.</b> · Bogotá</div>
+          <ul>
+            <li>Campañas publicitarias y producción de material visual para grandes empresas.</li>
+            <li>Apoyo comercial y gestión de ventas.</li>
+          </ul>
+        </div>
+        <div class="job">
+          <div class="date mono">2010 — Actualidad</div>
+          <h3>Diseñador Gráfico Independiente</h3>
+          <div class="co"><b>Art Sneyder</b> — Estudio propio de soluciones gráficas</div>
+          <ul>
+            <li>Diseño editorial, publicitario y fotográfico, modelado y render 3D, y desarrollo web front-end para clientes propios.</li>
+            <li>Webs a la medida: landing pages, e-commerce y web apps con IA.</li>
+          </ul>
+          <div class="chips"><span>Illustrator</span><span>InDesign</span><span>Dreamweaver</span><span>PHP</span><span>jQuery</span><span>Angular</span><span>WordPress</span><span>Ruby</span><span>MySQL</span></div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="sb">
+      <div>
+        <div class="sec-h"><span class="n">03</span><h2>Formación</h2></div>
+        <div class="edu cur">
+          <span class="live mono">EN CURSO</span>
+          <div class="date mono">Sep 2024 — Actualidad</div>
+          <h4>Animación Digital</h4>
+          <p>SENA · Modalidad virtual. Motion graphics, animación 2D, storytelling, composición y principios de animación.</p>
+        </div>
+        <div class="edu">
+          <div class="date mono">Julio 2016</div>
+          <h4>Profesional en Diseño Gráfico</h4>
+          <p>Institución Suramérica ·Comunicación visual, publicidad, branding y diseño editorial.</p>
+        </div>
+        <div class="edu" style="margin-bottom:0">
+          <div class="date mono">Octubre 2018</div>
+          <h4>Inglés — Nivel B2</h4>
+          <p>Natural English · Certificado.</p>
+        </div>
+      </div>
+
+      <div class="card" style="padding:4mm">
+        <div class="sec-h" style="margin-bottom:1.4mm"><span class="n">04</span><h2>Certificaciones</h2></div>
+        <div class="cert"><div class="ic"><i class="fa-solid fa-robot"></i></div><div><h4>AI Academy</h4><p>IA, automatización, desarrollo web y LLMs · 5 rutas · 30 cursos · 66 h.</p></div></div>
+        <div class="cert"><div class="ic"><i class="fa-solid fa-cloud"></i></div><div><h4>Cloud Computing y DevOps</h4><p>9 rutas: cloud, DevOps, automatización e infraestructura. En formación.</p></div></div>
+        <div class="cert"><div class="ic"><i class="fa-solid fa-shield-halved"></i></div><div><h4>Ciberseguridad</h4><p>5 rutas: Blue Team, Red Team y protección de infraestructura. En formación.</p></div></div>
+      </div>
+
+      <div class="card" style="padding:4mm">
+        <div class="sec-h" style="margin-bottom:3mm"><span class="n">05</span><h2>Idiomas</h2></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2mm">
+          <div class="lang"><div class="ring" style="--p:100%"><b>ES</b></div><div><h4>Español</h4><p>Nativo</p></div></div>
+          <div class="lang"><div class="ring" style="--p:70%"><b>B2</b></div><div><h4>Inglés</h4><p>Certificado</p></div></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="band z">
+    <div class="sec-h" style="margin-bottom:3mm"><span class="n">06</span><h2>Especialidades</h2></div>
+    <div class="chips" style="margin-top:0">
+      <span class="o">Diseño Gráfico</span><span class="o">Branding</span><span>Identidad Corporativa</span><span class="o">Motion Graphics</span>
+      <span>Producción Audiovisual</span><span>Diseño Editorial</span><span class="o">UX/UI</span><span>Desarrollo Front-End</span>
+      <span class="o">Automatización (IA)</span><span>Fotografía Comercial</span><span>Material POP</span><span>Social Media</span><span>Chatbots</span><span>Render 3D</span>
+    </div>
+  </div>
+
+  <div class="foot mono"><span>Sneyder Riaño Hernández · <b>Art Sneyder</b></span><span>02 / 03</span></div>
+</section>
+
+<!-- ============ PÁGINA 3 ============ -->
+<section class="page">
+  <div class="glow" style="width:120mm;height:120mm;right:-50mm;top:-50mm;background:rgba(249,115,22,.18)"></div>
+  <div class="glow" style="width:120mm;height:120mm;left:-50mm;bottom:-40mm;background:rgba(249,115,22,.22)"></div>
+  <div class="ghost3">CREATIVO</div>
+
+  <header class="topbar z">
+    <div class="brand">
+      <img src="logo-oscuro.png" alt="Logo Art Sneyder">
+      <div><b>ART SNEYDER</b><span class="mono">Sneyder Riaño Hernández</span></div>
+    </div>
+    <div class="meta mono"><div>Visión creativa</div><div><i class="fa-solid fa-globe"></i> sneyder.netlify.app</div></div>
+  </header>
+
+  <div class="z" style="margin-top:6mm">
+    <div class="sec-h"><span class="n">07</span><h2>Detrás del Diseño</h2></div>
+    <div class="about">
+      <div class="pic"><img src="fotografo.jpg" alt="Sneyder fotografiando"><span class="mono">Fotografía · Dirección de arte</span></div>
+      <div>
+        <div class="hola mono">Visión creativa</div>
+        <div class="quote">Integro <em>estética</em>, <em>estrategia</em> y <em>tecnología</em>.</div>
+        <p class="tx">Soy profesional en Diseño Gráfico desde 2016 y llevo más de diez años en la industria creativa. La pasión por las artes plásticas me llevó a las artes visuales y multimedia: el diseño es el lugar donde represento mis emociones y mi forma de ver el mundo.</p>
+        <p class="tx">Me mueve la intersección entre el arte visual y la tecnología. Mi objetivo es unir <b>diseño gráfico, motion graphics, desarrollo web, automatización e inteligencia artificial</b> para crear soluciones digitales innovadoras y eficientes. Hoy estudio <b>Animación Digital</b> para llevar mis piezas audiovisuales a un nivel que conecte con las audiencias.</p>
+        <div class="pillars">
+          <div class="pillar"><i class="fa-solid fa-palette"></i><h4>Creatividad con criterio</h4><p>Piezas que se ven bien y además venden.</p></div>
+          <div class="pillar"><i class="fa-solid fa-bolt"></i><h4>Tecnología que ahorra tiempo</h4><p>Flujos n8n, chatbots e IA aplicados al negocio.</p></div>
+          <div class="pillar"><i class="fa-solid fa-layer-group"></i><h4>De la idea al arte final</h4><p>Concepto, diseño, video, web e impresión.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="z" style="margin-top:5.5mm">
+    <div class="sec-h"><span class="n">08</span><h2>Proyectos Destacados</h2></div>
+    <div class="projects">
+      <div class="pj hl">
+        <div class="num">01</div>
+        <div class="k mono">Marca fundadora · Ecosistema ciclista · Bogotá</div>
+        <h4>Familia Bogo — marca creada desde cero</h4>
+        <p>Concebí y construí la identidad de un ecosistema de comunidades ciclistas: marcas, sitios web, eventos, uniformes y contenido. Bogofija es el origen; cada rama tiene su propia comunidad.</p>
+        <div class="bogo"><span class="f">BOGOFIJA</span><span>BOGOCHICAS</span><span>BOGORUTA</span><span>BOGOMTB</span><span>BOGOKIDS</span><span>BOGOPÚBLICA</span></div>
+        <div class="tv"><i class="fa-solid fa-tv"></i> Bogofija y Bogochicas aparecieron en CityTV, noticiero de Bogotá.</div>
+      </div>
+      <div class="pj">
+        <div class="num">02</div>
+        <div class="k mono">UX/UI · IA · App web · E-commerce</div>
+        <h4>milabot.apps</h4>
+        <p>Web app con inteligencia artificial: experiencia de usuario, interfaz y desarrollo.</p>
+      </div>
+      <div class="pj">
+        <div class="num">03</div>
+        <div class="k mono">UX/UI · E-commerce · Moda</div>
+        <h4>Shippia</h4>
+        <p>Tienda en línea de ropa y lencería: diseño de interfaz y maquetación.</p>
+      </div>
+      <div class="pj">
+        <div class="num">04</div>
+        <div class="k mono">UX/UI · E-commerce · Perfumería</div>
+        <h4>stgonjparfums</h4>
+        <p>E-commerce de perfumería con catálogo y pedidos.</p>
+      </div>
+      <div class="pj">
+        <div class="num">05</div>
+        <div class="k mono">Identidad corporativa · Empaque</div>
+        <h4>BioEssence · Natural Green</h4>
+        <p>Dirección de arte, empaque sustentable, render 3D, arte final y preprensa.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="z" style="margin-top:5.5mm">
+    <div class="sec-h"><span class="n">09</span><h2>Tecnologías y Herramientas</h2></div>
+    <div class="tools">
+      <div class="tool"><div class="lg" style="background:#0f9b4a;color:#fff">Cd</div><span>CorelDRAW</span></div>
+      <div class="tool"><div class="lg" style="background:#001e36;color:#31a8ff">Ps</div><span>Photoshop</span></div>
+      <div class="tool"><div class="lg" style="background:#330000;color:#ff9a00">Ai</div><span>Illustrator</span></div>
+      <div class="tool"><div class="lg" style="background:#00005b;color:#9999ff">Ae</div><span>After Effects</span></div>
+      <div class="tool"><div class="lg" style="background:#00005b;color:#ea77ff">Pr</div><span>Premiere</span></div>
+      <div class="tool"><div class="lg" style="background:#49021f;color:#ff3366">Id</div><span>InDesign</span></div>
+      <div class="tool"><div class="lg" style="background:#1e1e1e;color:#fff"><i class="fa-brands fa-figma"></i></div><span>Figma</span></div>
+      <div class="tool"><div class="lg" style="background:#2a0f12;color:#ea4b71">n8n</div><span>n8n</span></div>
+      <div class="tool"><div class="lg" style="background:#2b1208;color:#e34f26"><i class="fa-brands fa-html5"></i></div><span>HTML5</span></div>
+      <div class="tool"><div class="lg" style="background:#0b1d33;color:#2196f3"><i class="fa-brands fa-css3-alt"></i></div><span>CSS3</span></div>
+      <div class="tool"><div class="lg" style="background:#2a2608;color:#f7df1e"><i class="fa-brands fa-js"></i></div><span>JavaScript</span></div>
+      <div class="tool"><div class="lg" style="background:#2b0d0d;color:#dd0031"><i class="fa-brands fa-angular"></i></div><span>Angular</span></div>
+      <div class="tool"><div class="lg" style="background:#0c1f2b;color:#21a0d6"><i class="fa-brands fa-wordpress"></i></div><span>WordPress</span></div>
+      <div class="tool"><div class="lg" style="background:#2b120c;color:#f05032"><i class="fa-brands fa-git-alt"></i></div><span>Git · GitHub</span></div>
+      <div class="tool"><div class="lg" style="background:#0d1a2b;color:#8ab4f8"><i class="fa-solid fa-star"></i></div><span>Gemini</span></div>
+      <div class="tool"><div class="lg" style="background:#0d2620;color:#10a37f"><i class="fa-solid fa-comment-dots"></i></div><span>ChatGPT</span></div>
+    </div>
+  </div>
+
+  <div class="cta z">
+    <div>
+      <div class="hola mono">Hablemos</div>
+      <h2 style="margin-top:1.6mm">Trabajemos <em>juntos.</em></h2>
+      <p>Escanea el código para ver el portafolio completo, el reel y los proyectos en línea.</p>
+    </div>
+    <div class="links">
+      <a href="mailto:bogofija@gmail.com"><i class="fa-solid fa-envelope"></i>bogofija@gmail.com</a>
+      <a href="https://wa.me/573118113811"><i class="fa-brands fa-whatsapp"></i>+57 311 811 3811</a>
+      <a href="https://www.linkedin.com/in/artsneyder"><i class="fa-brands fa-linkedin-in"></i>linkedin.com/in/artsneyder</a>
+      <a href="https://vimeo.com/artsneyder"><i class="fa-brands fa-vimeo-v"></i>vimeo.com/artsneyder</a>
+      <a href="https://www.instagram.com/sneyder.rh/"><i class="fa-brands fa-instagram"></i>@sneyder.rh</a>
+    </div>
+    <a class="qr" href="https://sneyder.netlify.app/"><div id="qr"></div><small>PORTAFOLIO</small></a>
+  </div>
+
+  <div class="foot mono"><span>Referencias laborales disponibles a solicitud</span><span>sneyder.netlify.app · <b>03 / 03</b></span></div>
+</section>
+
+<script>
+  (function(){
+    if (typeof qrcode === 'undefined') return;
+    var q = qrcode(0,'M'); q.addData('https://sneyder.netlify.app/'); q.make();
+    var n = q.getModuleCount(), d = '';
+    for (var r=0;r<n;r++) for (var c=0;c<n;c++) if (q.isDark(r,c)) d += 'M'+c+' '+r+'h1v1h-1z';
+    document.getElementById('qr').innerHTML = '<svg viewBox="0 0 '+n+' '+n+'" shape-rendering="crispEdges"><path d="'+d+'" fill="#0a0a0a"/></svg>';
+  })();
+</script>
+</body>
+</html>
